@@ -23,6 +23,7 @@ export class BrightIdProvider implements Provider {
 
       const responseData = await verifyBrightidContextId(did || "");
       const formattedData: BrightIdVerificationResponse = responseData?.result as BrightIdVerificationResponse;
+      console.log("Brightid verify response", responseData);
 
       // Unique is true if the user obtained "Meets" verification by attending a connection party
       const isUnique = "unique" in formattedData && formattedData.unique === true;

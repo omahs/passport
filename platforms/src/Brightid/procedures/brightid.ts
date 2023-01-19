@@ -14,6 +14,7 @@ export const verifyBrightidContextId = async (contextId: string): Promise<Bright
       CONTEXT,
       contextId
     )) as BrightIdVerificationResponse;
+    console.log("Brightid procedure verify response", verifyContextIdResult);
 
     // Unique is true if the user obtained "Meets" verification by attending a connection party
     const isUnique = "unique" in verifyContextIdResult && verifyContextIdResult.unique === true;

@@ -24,11 +24,12 @@ export class BrightidPlatform extends Platform {
   }
 
   async getProviderPayload(appContext: AppContext): Promise<ProviderPayload> {
-    if (appContext.userDid) {
-      const isVerified = await this.handleVerifyContextId(appContext.userDid);
+    const { userDid } = appContext;
+    if (userDid) {
+      const isVerified = await this.handleVerifyContextId(userDid);
       if (isVerified) {
         return {
-          did: appContext.userDid,
+          did: userDid,
         };
       }
     }
@@ -36,7 +37,7 @@ export class BrightidPlatform extends Platform {
     const authUrl = `${process.env.NEXT_PUBLIC_PASSPORT_PROCEDURE_URL?.replace(
       /\/*?$/,
       ""
-    )}/brightid/information?callback=${appContext?.callbackUrl}&userDid=${appContext?.userDid}`;
+    )}/brightid/information?callback=${appContext?.callbackUrl}&userDid=${userDid}`;
     const width = 600;
     const height = 800;
     const left = appContext.screen.width / 2 - width / 2;
@@ -53,7 +54,7 @@ export class BrightidPlatform extends Platform {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_PASSPORT_PROCEDURE_URL?.replace(/\/*?$/, "")}/brightid/sponsor`,
         {
-          contextIdData: appContext.userDid,
+          contextIdData: userDid,
         }
       );
       const { data } = res as { data: { response: { valid: boolean } } };
